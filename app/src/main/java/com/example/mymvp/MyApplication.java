@@ -8,6 +8,11 @@ import com.taobao.update.apk.ApkUpdater;
 import com.taobao.update.common.Config;
 import com.taobao.update.common.framework.UpdateRuntime;
 import com.taobao.update.datasource.UpdateDataSource;
+import com.tencent.imsdk.v2.V2TIMSDKConfig;
+import com.tencent.qcloud.tim.uikit.TUIKit;
+import com.tencent.qcloud.tim.uikit.config.CustomFaceConfig;
+import com.tencent.qcloud.tim.uikit.config.GeneralConfig;
+import com.tencent.qcloud.tim.uikit.config.TUIKitConfigs;
 
 
 public class MyApplication extends Application {
@@ -21,8 +26,19 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instances = this;
+        //初始化阿里移动devops
         initUpdate();
+        //初始化腾讯IM
+        initTUIKit();
+    }
 
+    private void initTUIKit() {
+        // 配置 Config，请按需配置
+        TUIKitConfigs configs = TUIKit.getConfigs();
+        configs.setSdkConfig(new V2TIMSDKConfig());
+        configs.setCustomFaceConfig(new CustomFaceConfig());
+        configs.setGeneralConfig(new GeneralConfig());
+        TUIKit.init(this, 123, configs);
     }
 
     public static MyApplication getInstances() {
